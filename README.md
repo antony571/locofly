@@ -1,128 +1,204 @@
 # LocoFly — Flutter App Setup Guide
 
-## What you have right now
+## Project Structure
 
 ```
 locofly/
-├── pubspec.yaml                    ← All dependencies (packages) the app needs
-├── supabase_setup.sql              ← Run this in Supabase to create all tables
+├── pubspec.yaml
+├── supabase_setup.sql
 └── lib/
-    ├── main.dart                   ← App entry point (starts here)
+    ├── main.dart
     ├── core/
     │   ├── constants/
-    │   │   └── app_constants.dart  ← ⚠️ Put your Supabase URL here
+    │   │   └── app_constants.dart
     │   ├── theme/
-    │   │   ├── app_colors.dart     ← All colors from Figma
-    │   │   ├── app_theme.dart      ← Flutter theme (fonts, buttons, inputs)
-    │   │   └── app_text_styles.dart← Named text styles
+    │   │   ├── app_colors.dart
+    │   │   ├── app_theme.dart
+    │   │   └── app_text_styles.dart
     │   └── router/
-    │       └── app_router.dart     ← All screen routes
+    │       └── app_router.dart
     ├── data/
     │   ├── models/
-    │   │   └── models.dart         ← Data classes (Flight, Aircraft, Bid etc.)
+    │   │   └── models.dart
     │   └── supabase/
-    │       └── supabase_client.dart← Supabase connection setup
+    │       └── supabase_client.dart
     └── features/
-        └── home/screens/
-            └── main_shell_screen.dart ← Bottom navigation bar
+        ├── auth/
+        ├── home/
+        ├── flights/
+        ├── bids/
+        ├── bookings/
+        ├── notifications/
+        └── profile/
 ```
 
----
+## Step 1 — Open the Project
 
-## Step 1 — Copy this project into your Flutter workspace
+Copy the project folder into your Flutter workspace and open it in VS Code.
 
-Copy the `locofly/` folder to wherever you keep your projects, then open it in VS Code:
 ```bash
 cd path/to/locofly
 code .
 ```
 
----
+## Step 2 — Configure Supabase
 
-## Step 2 — Get your Supabase credentials
+1. Open your Supabase project.
 
-1. Go to [supabase.com](https://supabase.com) → your project
-2. Click **Project Settings** (gear icon, left sidebar)
-3. Click **API**
-4. Copy:
-   - **Project URL** — looks like `https://abcdefghij.supabase.co`
-   - **anon public** key — a long string starting with `eyJ...`
+2. Navigate to Project Settings → API.
 
-5. Open `lib/core/constants/app_constants.dart` and replace:
+3. Copy the following:
+
+   * Project URL
+   * Anon Public Key
+
+4. Open:
+
+```text
+lib/core/constants/app_constants.dart
+```
+
+Replace:
+
 ```dart
 static const String supabaseUrl = 'YOUR_SUPABASE_URL';
 static const String supabaseAnonKey = 'YOUR_SUPABASE_ANON_KEY';
 ```
-with your actual values.
 
----
+with your actual Supabase credentials.
 
-## Step 3 — Set up the database
+## Step 3 — Create the Database
 
-1. In your Supabase project, click **SQL Editor** (left sidebar)
-2. Click **New query**
-3. Open `supabase_setup.sql` from this project
-4. Copy the entire contents and paste into the SQL editor
-5. Click **Run**
+1. Open Supabase SQL Editor.
+2. Create a new query.
+3. Open the file:
 
-You should see "Success. No rows returned" — that means it worked.
+```text
+supabase_setup.sql
+```
 
-To verify, click **Table Editor** — you should see 10 tables: users, aircraft, flights, bids, bookings, passengers, payments, notifications, special_offers.
+4. Copy its contents into the SQL Editor.
+5. Execute the script.
 
----
+After execution, verify that the required tables have been created in the Table Editor.
 
-## Step 4 — Install Flutter packages
+## Step 4 — Install Dependencies
 
-In your terminal (inside the `locofly/` folder):
+Run:
+
 ```bash
 flutter pub get
 ```
 
-This reads `pubspec.yaml` and downloads all the packages. It's like `npm install` if you've used Node.js.
+This downloads all dependencies listed in `pubspec.yaml`.
 
----
+## Step 5 — Launch the Application
 
-## Step 5 — Run the app
+Connect an Android device, emulator, iOS simulator, or physical device and run:
 
-With an Android emulator or iOS simulator open, or a real device connected:
 ```bash
 flutter run
 ```
 
-You should see the yellow LocoFly splash screen, then it navigates to a placeholder home screen with the bottom navigation bar.
+The application should start and navigate to the main interface.
 
----
+## Implemented Features
 
-## Step 6 — Enable Auth providers in Supabase
+### Authentication
 
-1. In Supabase → **Authentication** → **Providers**
-2. Enable **Email** (already on by default)
-3. Enable **Google** (you'll need a Google Cloud OAuth client ID — we'll set this up in Phase 2)
-4. Enable **Apple** (needs Apple Developer account — we'll set this up in Phase 2)
-5. Enable **Phone** (for OTP) — needs Twilio or similar SMS provider
+* Email-based sign up and login
+* User session management
+* Supabase authentication integration
 
----
+### Home & Flight Discovery
 
-## What's next
+* Flight listing screen
+* Flight detail screen
+* Aircraft and amenities display
 
-We'll build screens one phase at a time:
+### Bidding System
 
-| Phase | What we build |
-|-------|--------------|
-| ✅ Phase 1 | Project setup (done!) |
-| Phase 2 | Onboarding, Sign Up, Login, OTP |
-| Phase 3 | Home, Flight List, Flight Detail, Amenities |
-| Phase 4 | Place Bid, Passenger Details, Razorpay |
-| Phase 5 | My Bids, Bookings, E-Ticket, Notifications, Profile |
+* Flight bidding workflow
+* Bid placement and tracking
+* Bid history management
 
----
+### Passenger Management
 
-## If something goes wrong
+* Passenger information collection
+* Booking details management
 
-**`flutter pub get` fails** → Make sure you have Flutter 3.x installed. Run `flutter --version` to check.
+### Booking System
 
-**Supabase SQL errors** → Some lines (like `insert into storage.buckets`) may fail if your project already created default buckets. That's fine — just skip those lines and run the rest.
+* Booking confirmation
+* E-ticket generation
+* Booking history
 
-**App doesn't compile** → Run `flutter clean` then `flutter pub get` again.
+### Notifications
 
-**Red error screen in app** → This means your Supabase URL/key is wrong. Double-check `app_constants.dart`.
+* In-app notification support
+
+### User Profile
+
+* Profile management
+* Account information updates
+
+## Current Limitations
+
+The following features are currently not fully implemented and exist only as placeholders or future extensions:
+
+* Google OAuth login
+* Apple Sign-In
+* Phone OTP authentication
+* Third-party SMS provider integration
+* Razorpay payment gateway integration
+* Production-ready payment processing
+* Advanced notification delivery services
+
+The application currently relies primarily on Supabase authentication and database functionality.
+
+## Troubleshooting
+
+### Dependency Installation Fails
+
+Verify Flutter installation:
+
+```bash
+flutter --version
+```
+
+Then run:
+
+```bash
+flutter pub get
+```
+
+again.
+
+### Database Script Errors
+
+Some storage-related SQL statements may fail if the resources already exist in Supabase. These statements can be skipped if the required tables and buckets have already been created.
+
+### Build Errors
+
+Run:
+
+```bash
+flutter clean
+flutter pub get
+```
+
+and rebuild the project.
+
+### Supabase Connection Issues
+
+Ensure that the values configured in:
+
+```text
+lib/core/constants/app_constants.dart
+```
+
+match the Project URL and Anon Key from your Supabase project.
+
+## Project Status
+
+Most planned application screens and core workflows have been completed. Authentication, flight browsing, bidding, booking management, notifications, and profile functionality are available. Certain external service integrations, including OAuth providers and Razorpay payments, remain pending and should be considered future enhancements.
