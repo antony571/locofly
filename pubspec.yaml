@@ -1,0 +1,61 @@
+name: locofly
+description: LocoFly — Private aviation bidding app for empty-leg flights.
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # ─── Supabase (database, auth, storage, edge functions) ───────────────────
+  supabase_flutter: ^2.5.6        # The main Supabase SDK for Flutter
+
+  # ─── State management ─────────────────────────────────────────────────────
+  # Riverpod: a clean way to manage app state (user session, flight data, etc.)
+  # Think of it as a global store your widgets can read and react to
+  flutter_riverpod: ^2.5.1
+  riverpod_annotation: ^2.3.5
+
+  # ─── Navigation ───────────────────────────────────────────────────────────
+  # go_router: handles screen navigation. Defines URL-like routes e.g. /home, /bids
+  go_router: ^13.2.0
+
+  # ─── UI & design ──────────────────────────────────────────────────────────
+  google_fonts: ^6.2.1            # For clean typography (we'll use Inter)
+  cached_network_image: ^3.3.1    # Loads & caches flight/aircraft images efficiently
+  flutter_svg: ^2.0.10+1          # SVG support (icons, illustrations)
+  shimmer: ^3.0.0                 # Loading skeleton effect (looks professional)
+  smooth_page_indicator: ^1.1.0   # Dots indicator for the aircraft image carousel
+  fl_chart: ^0.68.0               # The 7-day price history bar chart on bid screen
+
+  # ─── Location ─────────────────────────────────────────────────────────────
+  geolocator: ^12.0.0             # Gets user's GPS location for "Flights Near You"
+  geocoding: ^3.0.0               # Converts lat/lng to city names (e.g. "Bangalore")
+
+  # ─── Utilities ────────────────────────────────────────────────────────────
+  intl: ^0.19.0                   # Date/number formatting (₹2,45,000 / 22 May 2025)
+  url_launcher: ^6.3.0            # Opens e-ticket PDF URL in browser
+  image_picker: ^1.1.0            # Lets user pick passport photo from gallery/camera
+  local_auth: ^2.3.0              # Biometric (fingerprint/face) login
+  shared_preferences: ^2.2.3      # Saves small data locally (e.g. onboarding seen flag)
+  connectivity_plus: ^6.0.3       # Detects if user is offline
+  timeago: ^3.6.1                 # "2 hours ago" style timestamps for notifications
+  country_picker: ^2.0.26         # Country + phone code picker on signup screen
+  pin_code_fields: ^8.0.1         # The 6-digit OTP input boxes
+  flutter_countdown_timer: ^4.1.0 # Countdown for bid expiry (23h 45m 12s)
+  flutter_dotenv: ^5.1.0          # Loads .env file so keys stay out of source code
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+  build_runner: ^2.4.9            # Code generation (needed by riverpod_annotation)
+  riverpod_generator: ^2.4.3      # Generates boilerplate for Riverpod providers
+
+flutter:
+  uses-material-design: true
+  assets:
+    - .env                # dotenv package reads this at runtime
