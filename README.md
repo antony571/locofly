@@ -196,9 +196,9 @@ Ensure that the values configured in:
 ```text
 lib/core/constants/app_constants.dart
 ```
+### Project Status
+
+Most planned application screens and core workflows have been completed. Authentication, flight browsing, bidding, booking management, notifications, and profile functionality are available. Certain external service integrations, including OAuth providers and Razorpay payments, remain pending along with UI transitions, beautifications, etc. Back buttons may be missing in some places and only placeholder images are being used currently. Dark theme remains to be implemented.
 
 match the Project URL and Anon Key from your Supabase project.
 
-## Project Status
-
-Most planned application screens and core workflows have been completed. Authentication, flight browsing, bidding, booking management, notifications, and profile functionality are available. Certain external service integrations, including OAuth providers and Razorpay payments, remain pending and should be considered future enhancements.
